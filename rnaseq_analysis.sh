@@ -49,3 +49,37 @@ cd /project/clab0723/linux/2_rnaseq/3_analysis # Change to the relevant working 
 watch squeue --me # Check my job is running
 less <jobid>_slurm_template.sh.out # Check log when job's finished
 less <jobid>_slurm_template.sh.err # Check error messages
+
+######### Convert Sam files to Bam and QC ###########
+load_mamba # Load the env using the alias
+cd /project/clab0723/linux/2_rnaseq/3_analysis # Change to the directory that contains the .sh script file.sam file (output of histat)
+# Check .sam file with one or several of the follwoing options:
+head aln-pe.sam # Check top of .sam file
+tail aln-pe.sam # Check end of .sam file
+less aln-pe.sam # Check all of .sam file
+
+# Create a .sh script that will:
+# 1 - Convert the sam file to bam 
+# 2 - Sort the new bam file (1 and 2 can be piped) (specify output for 2)
+# 3 - Index the sorted bam file
+# 4 - Run samtools flagstat (specify output so it doesn't print to terminal or to .out file)
+# 5 - Run samtools idxstats (also specify output)
+# Adjust the memory (10G) and time (1h).
+# The corresponding script is slurm_sam_to_bam.sh. It is included in the repository.
+
+multiqc -o ./multiqc_report . # Run multiqc on the 3_analysis folder. This will produce the same compilation of analysis as before but also add the info produced from the .sam and .bam files
+
+########## Run featureCounts ###########
+# Create a .sh script that will run the featureCounts command
+# Use the mouse genome reference file downloaded previously: /project/clab0723/linux/2_rnaseq/2_genome/Mus_musculus.GRCm39.115.gtf.gz
+# Output to count.txt
+# Use argument -s 2 because the data is reversly stranded
+# Use argument -p because the data is paired-end
+# Optional: specify the number of CPUs. Use used 4: -T 4
+# The corresponding script, slurm_featureCounts.sh,  is in the repository
+
+
+
+
+
+
